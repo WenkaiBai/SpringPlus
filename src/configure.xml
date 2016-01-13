@@ -1,0 +1,54 @@
+﻿<?xml version="1.0"?>
+
+<beans>
+
+	<bean id="offerimpl" scope="singleton" class="com.paypal.spring.plus.spring_framwork_plus.sample.OfferImpl">
+		<property id="integer">
+			<value ref = "integer" class="java.lang.Integer">12</value> 
+		</property>
+	</bean>
+
+	<bean id="person" class="com.paypal.spring.plus.spring_framwork_plus.sample.Person">
+	</bean>
+	
+	<bean id="configureContext"  scope="prototype" class="com.paypal.spring.plus.spring_framwork_plus.sample.ConfigureContext">
+		<property id="offerimpl">
+			<value ref = "offerimpl" class="java.lang.Object"/>
+		</property>
+		<property id="person">
+			<value ref = "person"/>
+		</property>
+		<property id="integer">
+			<value ref = "integer" class="java.lang.Integer">12</value> 
+		</property>
+	</bean>
+
+	<bean id="advice" class="com.paypal.spring.plus.spring_framwork_plus.sample.BeforeAdvice"></bean>
+    <bean id="pointcut"
+        class="com.paypal.spring.plus.spring_framwork_plus.aop.MethodPointCut">
+        <property id="mappedMethodName" >
+            <value ref="mappedMethodName" class="java.lang.String">say</value>
+        </property>
+    </bean>
+    <bean id="advisor"
+        class="com.paypal.spring.plus.spring_framwork_plus.aop.Advisor">
+        <property id="advice">
+            <value ref ="advice" class="java.lang.Object"/>
+        </property>
+        <property id="pointcut">
+            <value ref="pointcut"/>
+        </property>
+    </bean>
+	
+	<bean id="proxyBean"
+        class="com.paypal.spring.plus.spring_framwork_plus.aop.ProxyFactoryBean">
+        <property id="target">
+            <value ref ="person" class="java.lang.Object"/>
+        </property>
+        <property id="interceptorNames">
+             <value ref ="advisor" />
+        </property>
+    </bean>
+	
+	
+</beans>
