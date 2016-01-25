@@ -11,18 +11,16 @@ public class BeanCreatorFactory {
 		static BeanCreatorFactory INSTANCE = new BeanCreatorFactory();
 	}
 	
-	private BeanCreatorFactory() {
-	}
+	private BeanCreatorFactory() {}
 	
 	public static BeanCreatorFactory getInstance() {
 		return Loader.INSTANCE;
 	}
 	
 	public BeanCreator findCreationFactory(BeanDefinition beanDefinition) {
-		if(beanDefinition.isSetter()) {
+		if (beanDefinition.isSetter()) {
 			return this.setterBeanCreator;
-		}
-		else {
+		} else {
 			return this.constructorBeanCreator;
 		}
 	}

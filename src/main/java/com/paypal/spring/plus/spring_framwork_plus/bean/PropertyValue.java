@@ -5,7 +5,7 @@ public class PropertyValue {
 	private String typeId;
 	private String typeClassName;
 	private String value;
-	private boolean isLocal = false;
+	private boolean isLocal = true;
 	
 	public PropertyValue(String id, String className, String value) {
 		this.typeClassName = className;

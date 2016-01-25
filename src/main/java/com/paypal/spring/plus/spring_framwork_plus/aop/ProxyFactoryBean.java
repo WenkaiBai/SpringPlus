@@ -44,20 +44,16 @@ public class ProxyFactoryBean implements MethodInterceptor{
 	
 	public Object intercept(Object arg0, Method method, Object[] args,
 			MethodProxy proxy) throws Throwable {
-		
 		Object result = null;
-		if(this.advisor.getPointcut().getMappedMethodName().equals(
-				method.getName())) {
-			
-			if(MethodAfterAdvice.class.isInstance(this.advisor.getAdvice())) {
-				//After
-				result = method.invoke(this.target, args);
-				this.advisor.getAdvice().execute();
-			}
-			else if (MethodBeforeAdvice.class.isInstance(this.advisor.getAdvice())) {
-				this.advisor.getAdvice().execute();
-				result = method.invoke(this.target, args);	
-			}
+		if (!this.advisor.getPointcut().getMappedMethodName().equals(method.getName())) {
+			return result;
+		} else if (MethodAfterAdvice.class.isInstance(this.advisor.getAdvice())) {
+			//After
+			result = method.invoke(this.target, args);
+			this.advisor.getAdvice().execute();
+		} else if (MethodBeforeAdvice.class.isInstance(this.advisor.getAdvice())) {
+			this.advisor.getAdvice().execute();
+			result = method.invoke(this.target, args);	
 		}
 		return result;
 	}

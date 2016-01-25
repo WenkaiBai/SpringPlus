@@ -43,9 +43,7 @@ public class Test {
 		try {
 			Constructor c = String.class.getConstructor(String.class);
 			Object i = c.newInstance("12");
-			//System.err.println((String) i .toString());
-			
-			
+			//System.err.println((String) i .toString());		
 		} catch (NoSuchMethodException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

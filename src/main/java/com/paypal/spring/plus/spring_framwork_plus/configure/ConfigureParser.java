@@ -45,19 +45,18 @@ public class ConfigureParser {
 	}
 	
 	public void readIntoFactory(DefaultListableBeanFactory beanFactory) {
-		for(int i = 0 ; i < this.beanNodeList.getLength(); i++) {
+		for (int i = 0 ; i < this.beanNodeList.getLength(); i++) {
 			Element currentBean = (Element) this.beanNodeList.item(i);
-			
 			BeanDefinition beanDefinition = new BeanDefinition();
 			
 			beanDefinition.setBeanId(currentBean.getAttribute(XMLProperty.BEANID));
 			beanDefinition.setBeanClassName(currentBean.getAttribute(XMLProperty.BEANCLASS));
-			if(currentBean.hasAttribute(XMLProperty.BEANSCOPE)) {
+			if (currentBean.hasAttribute(XMLProperty.BEANSCOPE)) {
 				beanDefinition.setScope(currentBean.getAttribute(XMLProperty.BEANSCOPE));
 			}
 			//read property
 			NodeList propertyNodes = currentBean.getElementsByTagName(XMLProperty.PROPERTY);
-			for(int j = 0 ; j < propertyNodes.getLength(); j++) {
+			for (int j = 0 ; j < propertyNodes.getLength(); j++) {
 				Element currentNode = (Element) propertyNodes.item(j);
 				String id = currentNode.getAttribute(XMLProperty.BEANID);
 				Element valueNode = (Element) currentNode.getElementsByTagName(XMLProperty.VALUE).item(0);
@@ -66,19 +65,21 @@ public class ConfigureParser {
 				String value = valueNode.getTextContent();
 				
 				PropertyValue propertyValue = new PropertyValue(valueId, valueClass, value);
-				
-				if(valueClass == null || valueClass.trim().isEmpty() || "java.lang.Object".equals(valueClass)) {
-					//custumizing class
-					if(!beanFactory.getBeanDefinitionMap().containsKey(valueId)) {
-						System.err.println("xml fail");
-						return;
-					}
-					else if(valueClass == null || valueClass.trim().isEmpty()) {
+
+				if ((valueClass == null || valueClass.trim().isEmpty()) &&
+							!beanFactory.getBeanDefinitionMap().containsKey(valueId)) {
+					System.err.println("xml fail: there are no bean's id is "+valueId);
+					return;
+				} else if (valueClass == null || valueClass.trim().isEmpty()) {
 						propertyValue.setTypeClassName(
 								beanFactory.getBeanDefinitionMap().get(valueId).getBeanClassName());
-					}
-					else {}
-					propertyValue.setLocal(true);
+				} else if ("java.lang.Object".equals(valueClass) && 
+						beanFactory.getBeanDefinitionMap().containsKey(valueId)) {
+					//propertyValue.setTypeClassName(
+							//beanFactory.getBeanDefinitionMap().get(valueId).getBeanClassName());
+				} else {
+					/** this instance's class is not customized */
+					propertyValue.setLocal(false);
 				}
 				beanDefinition.getPropertyList().add(propertyValue);	
 			}
@@ -86,5 +87,5 @@ public class ConfigureParser {
 			beanFactory.getBeanDefinitionMap().put(beanDefinition.getBeanId(), beanDefinition);
 		}
 	}
-	
+
 }

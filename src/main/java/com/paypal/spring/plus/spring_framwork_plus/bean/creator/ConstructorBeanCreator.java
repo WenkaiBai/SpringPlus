@@ -19,12 +19,10 @@ public class ConstructorBeanCreator implements BeanCreator{
 	public <T> T createInstance(BeanDefinition beanDefinition,
 			BeanFactory beanFactory) throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException, NoSuchMethodException, SecurityException {
-
-		if(beanDefinition.getPropertyList().isEmpty()) {
+		if (beanDefinition.getPropertyList().isEmpty()) {
 			T object = (T) Class.forName(beanDefinition.getBeanClassName()).newInstance();
 			return object;
-		}
-		else {
+		} else {
 			Class<?>[] parameterTypesArray = new Class<?>[beanDefinition.getPropertyList().size()]; 
 			Object[] parameterArray = new Object[beanDefinition.getPropertyList().size()];
 			
@@ -35,21 +33,17 @@ public class ConstructorBeanCreator implements BeanCreator{
 				if(propertyValue.isLocal()) {
 					//this is local class instance existing in factory
 					parameterArray[i] = beanFactory.getBean(propertyValue.getTypeId());
-				}
-				else {
+				} else {
 					//this is java system instance class
 					Constructor insideConstructor = parameterTypesArray[i].getConstructor(String.class);
 					try {
 						parameterArray[i] = insideConstructor.newInstance(propertyValue.getValue());
 					} catch (IllegalArgumentException e) {
-						
 						e.printStackTrace();
 					} catch (InvocationTargetException e) {
-						
 						e.printStackTrace();
 					}
 				}
-				
 			}
 			Constructor constructor = Class.forName(beanDefinition.getBeanClassName())
 				.getConstructor(parameterTypesArray);			
@@ -57,7 +51,6 @@ public class ConstructorBeanCreator implements BeanCreator{
 			try {
 				object = (T) constructor.newInstance(parameterArray);
 			} catch (IllegalArgumentException e) {
-				
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {	
 				e.printStackTrace();

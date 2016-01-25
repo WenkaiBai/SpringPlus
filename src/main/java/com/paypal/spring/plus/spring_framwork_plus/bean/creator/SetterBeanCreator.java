@@ -8,7 +8,6 @@ public class SetterBeanCreator implements BeanCreator{
 	public <T> T createInstance(BeanDefinition beanDefinition)
 			throws InstantiationException, IllegalAccessException,
 			ClassNotFoundException {
-		
 		T object = (T) Class.forName(beanDefinition.getBeanClassName()).newInstance();
 		return object;
 	}
@@ -17,7 +16,6 @@ public class SetterBeanCreator implements BeanCreator{
 			BeanFactory beanFactory) throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException,
 			NoSuchMethodException, SecurityException {
-		
 		T object = (T) Class.forName(beanDefinition.getBeanClassName()).newInstance();
 		return object;
 	}

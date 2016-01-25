@@ -4,6 +4,8 @@ public class OfferImpl implements IOffer{
 
 	public Integer integer;
 	
+	public OfferImpl(){}
+	
 	public OfferImpl(Integer i) {
 		this.integer = i;
 	}
