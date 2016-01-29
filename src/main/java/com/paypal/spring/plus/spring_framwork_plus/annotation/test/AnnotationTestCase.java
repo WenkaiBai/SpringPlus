@@ -1,6 +1,8 @@
-package com.paypal.spring.plus.spring_framwork_plus.sample;
+package com.paypal.spring.plus.spring_framwork_plus.annotation.test;
 
 import com.paypal.spring.plus.spring_framwork_plus.annotation.Inject;
+import com.paypal.spring.plus.spring_framwork_plus.sample.OfferImpl;
+import com.paypal.spring.plus.spring_framwork_plus.sample.Person;
 
 public class AnnotationTestCase {
 

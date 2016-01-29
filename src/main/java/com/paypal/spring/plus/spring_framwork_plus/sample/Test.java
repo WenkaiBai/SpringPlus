@@ -18,6 +18,8 @@ public class Test {
 
 	public static BeanFactory init()
 	{
+		String a = "abc";
+		a = a.replace("2", "c");
 		DefaultListableBeanFactory dlbf = new DefaultListableBeanFactory();
 		ConfigureParser cp = null;
 		try {
